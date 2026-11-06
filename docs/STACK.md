@@ -21,3 +21,7 @@
 | black + isort + flake8 | Replaced by ruff: one tool instead of three. |
 | tox / nox | The OS matrix lives in CI; locally a single `scripts/check.py` is enough. |
 | Shell scripts for gates | Not portable to Windows; the gates are a stdlib Python script. |
+
+## Runtime
+
+The library has no runtime dependencies. It uses only the Python standard library (`json`, `re`, `bisect`, `unicodedata`, `dataclasses`, `datetime`, `logging`, `typing`).
