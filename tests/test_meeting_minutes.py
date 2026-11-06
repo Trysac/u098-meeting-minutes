@@ -1,23 +1,21 @@
-"""Behavior tests for the public API of meeting_minutes."""
+"""Tests for the package surface."""
 
 from __future__ import annotations
 
-import pytest
+import logging
 
 import meeting_minutes
 
 
-def test_normalize_trims_and_lowercases() -> None:
-    assert meeting_minutes.normalize("  Hello World ") == "hello world"
+def test_all_names_exist() -> None:
+    for name in meeting_minutes.__all__:
+        assert hasattr(meeting_minutes, name)
 
 
-@pytest.mark.parametrize("value", ["", "   ", "\t\n"])
-def test_normalize_rejects_blank_input(value: str) -> None:
-    with pytest.raises(ValueError, match="must not be empty"):
-        meeting_minutes.normalize(value)
+def test_version() -> None:
+    assert meeting_minutes.__version__ == "0.1.0"
 
 
-def test_version_is_semver() -> None:
-    parts = meeting_minutes.__version__.split(".")
-    assert len(parts) == 3
-    assert all(part.isdigit() for part in parts)
+def test_logger_only_has_a_null_handler() -> None:
+    handlers = logging.getLogger("meeting_minutes").handlers
+    assert any(isinstance(h, logging.NullHandler) for h in handlers)

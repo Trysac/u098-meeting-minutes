@@ -1,21 +1,35 @@
-"""Turn meeting transcripts into validated minutes with summary, decisions and action items with owner and due date through an LLM port"""
+"""Turn meeting transcripts into validated minutes through an LLM port."""
 
 from __future__ import annotations
 
-__all__ = ["__version__", "normalize"]
+import logging
+
+from .dates import resolve_relative_date
+from .errors import MinutesError
+from .generate import generate_minutes
+from .llm import FakeLLM, LLMPort, Message, RecordedLLM, RecordingExhaustedError
+from .models import ActionItem, Decision, Minutes, Utterance
+from .parsing import parse_transcript
+from .render import render_markdown
+
+__all__ = [
+    "ActionItem",
+    "Decision",
+    "FakeLLM",
+    "LLMPort",
+    "Message",
+    "Minutes",
+    "MinutesError",
+    "RecordedLLM",
+    "RecordingExhaustedError",
+    "Utterance",
+    "__version__",
+    "generate_minutes",
+    "parse_transcript",
+    "render_markdown",
+    "resolve_relative_date",
+]
 
 __version__ = "0.1.0"
 
-
-def normalize(value: str) -> str:
-    """Return ``value`` trimmed and lower-cased.
-
-    Placeholder API created by the template: replace it with the utility's real behavior.
-
-    Raises:
-        ValueError: if ``value`` is empty or only whitespace.
-    """
-    cleaned = value.strip()
-    if not cleaned:
-        raise ValueError("value must not be empty")
-    return cleaned.lower()
+logging.getLogger(__name__).addHandler(logging.NullHandler())
